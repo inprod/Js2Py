@@ -203,6 +203,11 @@ class EvalJs(object):
         code = 'PyJsEvalResult = eval(%s)' % json.dumps(expression)
         self.execute(code, use_compilation_plan=use_compilation_plan)
         return self['PyJsEvalResult']
+    
+    def eval_js6(self, expression, use_compilation_plan=False):
+        """same as eval, except that the JS code gets translated from es6 to es5 before being executed."""
+        es5_expression = js6_to_js5(expression)
+        return self.eval(es5_expression, use_compilation_plan)
 
     def execute_debug(self, js):
         """executes javascript js in current context
